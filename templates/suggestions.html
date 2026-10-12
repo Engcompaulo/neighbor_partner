@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Suggestions for {{ shop.name }} &mdash; Neighbor Partner{% endblock %}
+
+{% block content %}
+<section class="suggestions-section">
+  <p class="back-link"><a href="{{ url_for('index') }}">&larr; Back to all shops</a></p>
+
+  <header class="selected-shop">
+    <h1>Partner suggestions for {{ shop.name }}</h1>
+    <p class="selected-shop-meta">
+      {{ shop.segment }} &middot; {{ shop.target_audience }} &middot; {{ shop.neighborhood }}
+    </p>
+  </header>
+
+  {% if promo %}
+    <div class="promo-result" role="status">
+      <h2>Generated promo</h2>
+      <p class="promo-text">{{ promo }}</p>
+    </div>
+  {% endif %}
+
+  {% if partners %}
+    <ul class="partner-list">
+      {% for partner in partners %}
+        <li class="partner-card">
+          <h2 class="partner-name">{{ partner.name }}</h2>
+          <dl class="shop-meta">
+            <dt>Segment</dt>
+            <dd>{{ partner.segment }}</dd>
+            <dt>Target audience</dt>
+            <dd>{{ partner.target_audience }}</dd>
+            <dt>Neighborhood</dt>
+            <dd>{{ partner.neighborhood }}</dd>
+          </dl>
+          <form method="post"
+                action="{{ url_for('generate_promo', shop_id=shop.id) }}">
+            <input type="hidden" name="partner_id" value="{{ partner.id }}" />
+            <button type="submit" class="btn btn-primary">Generate promo</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty-state">
+      No qualifying partners found for this shop. Partners must be in the same
+      neighborhood and a different segment.
+    </p>
+  {% endif %}
+</section>
+{% endblock %}

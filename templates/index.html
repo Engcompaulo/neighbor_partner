@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Shops &mdash; Neighbor Partner{% endblock %}
+
+{% block content %}
+<section class="shop-list-section">
+  <h1>Registered shops</h1>
+
+  {% if shops %}
+    <ul class="shop-list">
+      {% for shop in shops %}
+        <li class="shop-card">
+          <h2 class="shop-name">{{ shop.name }}</h2>
+          <dl class="shop-meta">
+            <dt>Segment</dt>
+            <dd>{{ shop.segment }}</dd>
+            <dt>Target audience</dt>
+            <dd>{{ shop.target_audience }}</dd>
+            <dt>Neighborhood</dt>
+            <dd>{{ shop.neighborhood }}</dd>
+          </dl>
+          <a class="btn btn-link"
+             href="{{ url_for('suggestions', shop_id=shop.id) }}">
+            View suggestions
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty-state">No shops exist yet. Be the first to register one below.</p>
+  {% endif %}
+</section>
+
+<section class="register-section">
+  <h2>Register your shop</h2>
+
+  {% if message %}
+    <p class="form-message" role="alert">{{ message }}</p>
+  {% endif %}
+
+  <form class="register-form" method="post" action="{{ url_for('create_shop') }}">
+    <div class="field">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" />
+    </div>
+    <div class="field">
+      <label for="segment">Segment</label>
+      <input type="text" id="segment" name="segment"
+             placeholder="e.g. bakery, bookstore, gym" />
+    </div>
+    <div class="field">
+      <label for="target_audience">Target audience</label>
+      <input type="text" id="target_audience" name="target_audience"
+             placeholder="e.g. families, students" />
+    </div>
+    <div class="field">
+      <label for="neighborhood">Neighborhood</label>
+      <input type="text" id="neighborhood" name="neighborhood"
+             placeholder="e.g. Old Town, Riverside" />
+    </div>
+    <button type="submit" class="btn btn-primary">Register shop</button>
+  </form>
+</section>
+{% endblock %}
