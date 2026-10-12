@@ -86,3 +86,5 @@ docker compose exec ollama ollama pull llama3.2:1b
 ```
 
 The `ollama` service caches the pulled model on a named volume, and the SQLite database is persisted on its own named volume, so both survive container restarts. The app runs on port **5000**.
+
+![alt text](img/image.png)
